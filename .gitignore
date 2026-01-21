@@ -1,0 +1,3 @@
+# Keep releases folder but ignore exe files (will be uploaded via CI)
+releases/*.exe
+!releases/.gitkeep
