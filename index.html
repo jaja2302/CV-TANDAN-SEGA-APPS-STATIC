@@ -6,21 +6,34 @@
     <title>Download CV Tandan Sega</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: system-ui, sans-serif; background: #f5f5f5; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; max-width: 400px; }
-        h1 { color: #333; margin-bottom: 10px; font-size: 24px; }
-        p { color: #666; margin-bottom: 30px; }
-        .btn { display: inline-block; background: #2563eb; color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: background 0.2s; }
+        body { font-family: system-ui, sans-serif; background: #f5f5f5; min-height: 100vh; padding: 40px 20px; }
+        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto; }
+        h1 { color: #333; margin-bottom: 8px; font-size: 24px; text-align: center; }
+        .subtitle { color: #666; margin-bottom: 30px; text-align: center; }
+        h2 { color: #333; font-size: 16px; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
+        .file-list { list-style: none; }
+        .file-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        .file-item:last-child { border-bottom: none; }
+        .file-info { flex: 1; }
+        .file-name { color: #333; font-weight: 500; font-size: 14px; }
+        .file-meta { color: #999; font-size: 12px; margin-top: 4px; }
+        .btn { background: #2563eb; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: background 0.2s; }
         .btn:hover { background: #1d4ed8; }
-        .version { color: #999; font-size: 12px; margin-top: 20px; }
+        .empty { color: #999; text-align: center; padding: 20px; }
+        .updated { color: #999; font-size: 11px; text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>CV Tandan Sega</h1>
-        <p>Aplikasi Desktop untuk Windows</p>
-        <a href="./releases/cv-sega_latest_x64-setup.exe" class="btn">Download Windows</a>
-        <p class="version">Version 1.1.8</p>
+        <p class="subtitle">Aplikasi Desktop untuk Windows</p>
+        
+        <h2>Available Downloads</h2>
+        <ul class="file-list">
+            <!-- FILE_LIST_PLACEHOLDER -->
+        </ul>
+        
+        <p class="updated">Last updated: <!-- LAST_UPDATED_PLACEHOLDER --></p>
     </div>
 </body>
 </html>
