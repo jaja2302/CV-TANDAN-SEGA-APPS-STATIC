@@ -17,10 +17,10 @@
         .file-info { flex: 1; }
         .file-name { color: #333; font-weight: 500; font-size: 14px; }
         .file-meta { color: #999; font-size: 12px; margin-top: 4px; }
-        .btn { background: #2563eb; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: background 0.2s; }
+        .btn { display: inline-block; background: #2563eb; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: background 0.2s; }
         .btn:hover { background: #1d4ed8; }
+        .loading { color: #999; text-align: center; padding: 20px; }
         .empty { color: #999; text-align: center; padding: 20px; }
-        .updated { color: #999; font-size: 11px; text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -29,11 +29,66 @@
         <p class="subtitle">Aplikasi Desktop untuk Windows</p>
         
         <h2>Available Downloads</h2>
-        <ul class="file-list">
-            <!-- FILE_LIST_PLACEHOLDER -->
+        <ul class="file-list" id="file-list">
+            <li class="loading">Loading...</li>
         </ul>
-        
-        <p class="updated">Last updated: <!-- LAST_UPDATED_PLACEHOLDER --></p>
     </div>
+
+    <script>
+        async function loadFiles() {
+            const list = document.getElementById('file-list');
+            try {
+                const response = await fetch('./releases/');
+                const html = await response.text();
+                
+                // Parse HTML to find .exe links
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const links = [...doc.querySelectorAll('a')]
+                    .map(a => a.getAttribute('href'))
+                    .filter(href => href && href.endsWith('.exe'))
+                    .map(href => href.split('/').pop());
+                
+                if (links.length === 0) {
+                    list.innerHTML = '<li class="empty">No releases available yet</li>';
+                    return;
+                }
+                
+                // Sort by version (newest first)
+                links.sort((a, b) => {
+                    const vA = a.match(/(\d+)\.(\d+)\.(\d+)/);
+                    const vB = b.match(/(\d+)\.(\d+)\.(\d+)/);
+                    if (vA && vB) {
+                        for (let i = 1; i <= 3; i++) {
+                            if (parseInt(vB[i]) !== parseInt(vA[i])) {
+                                return parseInt(vB[i]) - parseInt(vA[i]);
+                            }
+                        }
+                    }
+                    return b.localeCompare(a);
+                });
+                
+                // Render file list
+                list.innerHTML = links.map(filename => {
+                    const version = filename.match(/(\d+\.\d+\.\d+)/)?.[1] || 'unknown';
+                    return `
+                        <li class="file-item">
+                            <div class="file-info">
+                                <div class="file-name">Version ${version}</div>
+                                <div class="file-meta">${filename}</div>
+                            </div>
+                            <a href="./releases/${filename}" class="btn">Download</a>
+                        </li>
+                    `;
+                }).join('');
+                
+            } catch (error) {
+                console.error('Error loading files:', error);
+                list.innerHTML = '<li class="empty">Failed to load releases</li>';
+            }
+        }
+        
+        loadFiles();
+    </script>
 </body>
 </html>
